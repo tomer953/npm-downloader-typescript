@@ -9,12 +9,15 @@ import { command } from "execa";
 
 async function main() {
   try {
+    console.time("total-time");
+    
     // read package-lock.json file
     const jsonString = await fsp.readFile("./react.json", "utf8");
     const json = JSON.parse(jsonString);
 
     // reading deps
     let deps = getDeps(json);
+    console.log('total deps', deps.length);
 
     // packing deps
     await packAllDeps(deps);
@@ -22,7 +25,9 @@ async function main() {
     // calc hash
     glob("files/**/*.tgz", (err, files) => {
       calcFilesHash(files);
+      console.timeEnd("total-time");
     });
+
   } catch (error) {
     console.log(error);
   }
