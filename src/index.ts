@@ -23,8 +23,8 @@ async function main() {
     await packAllDeps(deps);
 
     // calc hash
-    glob("files/**/*.tgz", (err, files) => {
-      calcFilesHash(files);
+    glob("files/**/*.tgz", async (err, files) => {
+      await calcFilesHash(files);
       console.timeEnd("total-time");
     });
 
